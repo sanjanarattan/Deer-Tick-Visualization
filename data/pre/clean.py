@@ -28,4 +28,4 @@ comb = comb.rename(columns={'Name': 'County'})
 
 comb.to_csv('comb.csv', index=False)
 
-print("CSV saved.")
+print("CSV saved")
