@@ -8,7 +8,17 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
+    <header id = "title">Deer Ticks in New York</header>
     <div id="map"></div>
+
+    <div id="slider_container">
+        <button id = "play">Play</button>
+        <input type="range" id="year_slider" min="2008" max="2023" step="1" value="2023" />
+        <label for="year_slider">Year: <span id="Year">2023</span></label>
+    </div>
+
     <script src="features/map.js"></script>
+    <script src="features/slider.js"></script>
+
 </body>
 </html>

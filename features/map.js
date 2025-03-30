@@ -3,32 +3,45 @@ const height = 800;
 
 const SCALE = 8000;
 
+var TICKS;
+var GEO;
+
+var gfg = d3.geoAlbers()
+    .scale(SCALE)
+    .translate([width / 2 - 2100, height / 2 + 800])
+
+const path = d3.geoPath()
+    .projection(gfg)
+
+const svg = d3.select("body")
+    .append("svg")
+    .attr("width", width)
+    .attr("height", height)
+
+
+
 function load(){
-    d3.json("https://services6.arcgis.com/EbVsqZ18sv1kVJ3k/ArcGIS/rest/services/NYS_Civil_Boundaries/FeatureServer/2/query?f=geojson&where=1=1")
-    .then(function(data){
-        console.log("Data", data)
-        console.log("Features count:", data.features.length)
-        console.log("Head:", data.features.slice(0, 5))
-        draw(data)
-    })
+
+    Promise.all([
+        d3.json("https://services6.arcgis.com/EbVsqZ18sv1kVJ3k/ArcGIS/rest/services/NYS_Civil_Boundaries/FeatureServer/2/query?f=geojson&where=1=1"),
+        d3.csv("../data/deer_ticks.csv")
+    ])
+        .then(function([geo_data, tick_data]){
+        //console.log("Data", data)
+        //console.log("Features count:", data.features.length)
+        //console.log("Head:", data.features.slice(0, 5))
+        GEO = geo_data
+        TICKS = tick_data
+        draw()
+        filter(2023)            
+   })
+
 }
 
-function draw(data){
-    const svg = d3.select("body")
-                  .append("svg")
-                  .attr("width", width)
-                  .attr("height", height)
+function draw(){
 
-    var gfg = d3.geoAlbers()
-        .scale(SCALE)
-        .translate([width / 2 - 2100, height / 2 + 800])
-        
-    const path = d3.geoPath()
-        .projection(gfg)
-    
-    
     svg.selectAll("path")
-        .data(data.features)
+        .data(GEO.features)
         .enter()
         .append("path")
         .attr("d", path) 
@@ -36,7 +49,38 @@ function draw(data){
         .attr("stroke", "#000")
         .attr("stroke-width", 1)
 
+}
+
+function filter(year){
+
+    const filtered = TICKS.filter(d => d.Year == year)
+    //console.log("Filtered Data:", data)
+
+    color(filtered)
 
 }
 
+function color(data){
+
+    //console.log("Filtered data:", data)
+    //console.log("Max Density for year:", d3.max(data, d => d["Tick Population Density"]))
+    //console.log("Names:", GEO.features.map(d => d.properties.NAME));
+
+
+    const color_scale = d3.scaleSequential(d3.interpolateReds)
+                          .domain([0, d3.max(data, d => d["Tick Population Density"])])
+
+    svg.selectAll("path")
+        .data(GEO.features)
+        .attr("fill", function(d) {
+            const county = data.find(tick => tick.County == d.properties.NAME)
+            if (county) {
+                return color_scale(county["Tick Population Density"])
+            } else {
+                return "#FFF"
+            }
+        })
+}
+
 load()
+
