@@ -3,10 +3,29 @@ const label = document.getElementById("Year")
 const player = document.getElementById("play")
 const stopper = document.getElementById("stop")
 const legend_select = document.getElementById("legend_select")
+const decrease = document.getElementById("decrease_year")
+const increase = document.getElementById("increase_year")
+
+
 var selected
 let animating = false
 
+function update(){
+    slider.value = slider.value
+    selected = slider.value
+    label.textContent = selected
+    filter(selected, legend_select.value)
+}
+
 function update1(){
+    slider.value = slider.value - 1
+    selected = slider.value
+    label.textContent = selected
+    filter(selected, legend_select.value)
+}
+
+function update3(){
+    slider.value = parseInt(slider.value) + 1
     selected = slider.value
     label.textContent = selected
     filter(selected, legend_select.value)
@@ -18,13 +37,24 @@ function update2(year){
     filter(year, legend_select.value)
 }
 
-slider.addEventListener("input", function () {
+decrease.addEventListener("click", async function () {
     update1()
+
+})
+
+increase.addEventListener("click", async function () {
+    update3()
+    console.log(slider.value)
+
 })
 
 player.addEventListener("click", async function () {
     animating = true
-    for (let year = 2008; year <= 2023; year++) {
+
+    if (parseInt(slider.value) == 2023){
+        slider.value = 2008
+    }
+    for (let year = slider.value; year <= 2023; year++) {
         if (!animating){
             break
         }
@@ -46,7 +76,7 @@ stopper.addEventListener("click", async function () {
 
 
 legend_select.addEventListener("change", function () {
-    update1()
+    update()
 })
 
 

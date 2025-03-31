@@ -6,24 +6,40 @@
     <title>Deer Tick Visualization</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script defer src="app.js"></script>
+
+
 </head>
 <body>
-    <header id = "title">Deer Ticks in New York</header>
-    <div id="map"></div>
 
-    <div id="slider_container">
-        <button id = "play">Play</button>
-        <button id = "stop">Stop</button>
-        <input type="range" id="year_slider" min="2008" max="2023" step="1" value="2023" />
-        <label for="year_slider">Year: <span id="Year">2023</span></label>
-    </div>
+    <section class = "hidden">
+        <header id = "title">Deer Ticks in New York</header>
+    </section>
 
-    <div id="legend" value="Total Population Density"></div>
-    
+    <section2 class = "hidden">
 
+        <div id="map"></div>
+
+        <div id="slider_container">
+
+            <p id = "sub">1. mapping tick population and diseases</p>
+            <button id = "play">Play |</button>
+            <button id = "stop">Stop</button>  
+   
+        </div>
+        <input class = "hide" type="range" id="year_slider" min="2008" max="2023" step="1" value="2023" />
+        <button id="decrease_year">&#9664;</button>
+        <label for="year_slider"><span id="Year">2023</span></label>
+        <button id="increase_year">&#9654;</button>
+        <div id="legend" value="Total Population Density"></div>
+
+    </section2>
     <script src="features/map.js"></script>
     <script src="features/legend.js"></script>
     <script src="features/control.js"></script>
+
+</body>
+<body>
 
 </body>
 </html>

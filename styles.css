@@ -4,12 +4,34 @@ body {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif, sans-serif;
 }
 
+section {
+    display: grid;
+    place-items: center;
+    align-content: center;
+    min-height:110vh;
+}
+
+
+section2 {
+
+    min-height:50vh;
+}
+
+section3 {
+    display: grid;
+    place-items: center;
+    align-content: center;
+    min-height:100vh;
+}
+
 
 #slider_container {
-    margin-top:50px;
     background-color: rgba(255, 255, 255, 0.8);
     border-radius: 5px;
+    margin-top: 500px;
 }
+
+
 
 #Year {
     font-weight: bold;
@@ -19,4 +41,139 @@ body {
     font-size: 30px;
     margin-top: 10px;
     margin-left:10px;
+    font-weight:bold;
 }
+
+.hidden{
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.hide{
+    opacity:0;
+}
+
+.show{
+    opacity: 1;
+}
+
+#play {
+    font-family: 'Trebuchet MS';
+    border-radius: 12px; 
+    background-color: #ffffff;
+    color: #000000;
+    font-size: 16px;
+    font-weight: bold; 
+    cursor: pointer;
+    border: solid 1px #fff;
+    margin-inline-start: 1400px;
+}
+
+
+#play:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); 
+}
+
+#stop {
+    font-family: 'Trebuchet MS';
+    margin-left: -15px;
+    background-color: #ffffff;
+    color: #000000;
+    font-size: 16px;
+    font-weight: bold; 
+    cursor: pointer;
+    border: solid 1px #fff;
+    border-radius: 12px; 
+
+
+}
+
+#stop:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); 
+}
+
+#year_slider {
+    width: 40px;
+    height: 6px;
+    margin-top: 20px; 
+    margin-left: 20px;
+}
+
+#Year{
+    margin-left: 5px;
+    font-size: 25px;
+}
+
+#decrease_year{
+    margin-left: 650px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: none;
+    background: transparent;
+    border: solid 1px #fff;
+    cursor: pointer;
+
+
+}
+
+#decrease_year:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); 
+}
+
+#increase_year{
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: none;
+    background: transparent;
+    border: solid 1px #fff;
+    cursor: pointer;
+
+
+}
+
+#increase_year:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); 
+}
+
+#legend{
+    background-color: #ffffff;
+    border-color: #ffffff;
+    border-radius: 10px;
+    cursor: pointer;
+
+
+}
+
+#sub{
+    font-weight: bold;
+    font-size: 25px;
+    margin-left:20px;
+    margin-top: 20px;
+}
+
+#legend {
+    margin-top: 10px;
+    margin-left:70px;
+    text-align: center;
+    font-family: 'Trebuchet MS';
+    font-weight: bold;
+
+}
+
+#legend_select {
+    font-family: 'Trebuchet MS';
+    font-size: 13px;
+    width: 100%; 
+    max-width: 190px;
+    border-radius: 5px;
+    border: 1px solid #ffffff;
+    background-color: #ffffff;
+    transition: border-color 0.3s ease;
+    font-weight: bold;
+
+}
+

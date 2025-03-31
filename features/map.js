@@ -1,14 +1,14 @@
 const width = 1600
 const height = 800
 
-const SCALE = 8000
+const SCALE = 6500
 
 var TICKS
 var GEO
 
 var gfg = d3.geoAlbers()
     .scale(SCALE)
-    .translate([width / 2 - 2100, height / 2 + 800])
+    .translate([width / 2 - 1750, height / 2 + 600])
 
 const path = d3.geoPath()
     .projection(gfg)
@@ -16,7 +16,7 @@ const path = d3.geoPath()
 const svg = d3.select("body")
     .append("svg")
     .attr("width", width)
-    .attr("height", height)
+    .attr("height", 1000)
 
 
 
@@ -74,8 +74,8 @@ function color(data, TYPE){
 
     //console.log(d3.max(data, d => d[TYPE]))
 
-    const color_scale = d3.scaleSequential(d3.interpolateReds)
-                          .domain([0, d3.max(data, d => d[TYPE])])
+    const color_scale = d3.scaleSequential(d3.interpolateOranges)
+                          .domain([0, d3.max(TICKS, d => d[TYPE])])
     
 
     var tooltip = d3.select("#map")
@@ -84,6 +84,11 @@ function color(data, TYPE){
         .attr("class", "tooltip")
         .style("font-size", "16px")
         .style("position", "absolute")
+        .style("background-color", "rgba(20, 20, 20, 0.9)")
+        .style("color", "rgba(240, 240, 240, 1)")
+        .style("border-radius", "4px")
+        .style("text-align", "center")
+        .style("padding", "8px")
 
     svg.selectAll("path")
         .data(GEO.features)
@@ -92,7 +97,7 @@ function color(data, TYPE){
             if (county) {
                 return color_scale(county[TYPE])
             } else {
-                return "#FFF"
+                return "#FAF9F6"
             }
         })
         .on("mouseover", function(event, d){
@@ -105,24 +110,24 @@ function color(data, TYPE){
             if (county) {
                 tooltip.transition()
                        .style("opacity", 1)
-                tooltip.html(`${TYPE}: ${county[TYPE]} in ${d.properties.NAME}`)
+                tooltip.html(`County: ${d.properties.NAME} <br> ${TYPE}: ${county[TYPE]}`)
                        .style("left", (d3.pointer(event)[0] + 30) + "px")
-                       .style("top", (d3.pointer(event)[1] + 30) + "px")
+                       .style("top", (d3.pointer(event)[1] + 1400) + "px")
                 d3.selectAll(this).attr("stroke-width", 2)
 
             } else {
                 tooltip.transition()
                        .style("opacity", 1);
-                tooltip.html(`${TYPE}: ${county[0]} in ${d.properties.NAME}`)
+                tooltip.html(`County: ${d.properties.NAME} <br> ${TYPE}: ${0}`)
                        .style("left", (d3.pointer(event)[0] + 30) + "px")
-                       .style("top", (d3.pointer(event)[1] + 30) + "px")
+                       .style("top", (d3.pointer(event)[1] + 1400) + "px")
                 d3.select(this).attr("stroke-width", 2)
 
             }
         })
         .on("mousemove", function(event) { 
             tooltip.style("left", (d3.pointer(event)[0] + 30) + "px")
-                   .style("top", (d3.pointer(event)[1] + 30) + "px")
+                    .style("top", (d3.pointer(event)[1] + 1400) + "px")
             d3.select(this).attr("stroke-width", 2)
 
         })
