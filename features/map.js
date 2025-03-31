@@ -57,8 +57,8 @@ function filter(year, TYPE){
     var filtered
     filtered = TICKS.filter(d => d.Year == year)
 
-    console.log("Filtered Data:", filtered)
-    console.log(TYPE)
+    //console.log("Filtered Data:", filtered)
+    //console.log(TYPE)
 
     
     color(filtered, TYPE)
@@ -76,6 +76,14 @@ function color(data, TYPE){
 
     const color_scale = d3.scaleSequential(d3.interpolateReds)
                           .domain([0, d3.max(data, d => d[TYPE])])
+    
+
+    var tooltip = d3.select("#map")
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("font-size", "16px")
+        .style("position", "absolute")
 
     svg.selectAll("path")
         .data(GEO.features)
@@ -87,7 +95,44 @@ function color(data, TYPE){
                 return "#FFF"
             }
         })
+        .on("mouseover", function(event, d){
+
+            if (animating){
+                return
+            }
+
+            const county = data.find(tick => tick.County == d.properties.NAME)
+            if (county) {
+                tooltip.transition()
+                       .style("opacity", 1)
+                tooltip.html(`${TYPE}: ${county[TYPE]} in ${d.properties.NAME}`)
+                       .style("left", (d3.pointer(event)[0] + 30) + "px")
+                       .style("top", (d3.pointer(event)[1] + 30) + "px")
+                d3.selectAll(this).attr("stroke-width", 2)
+
+            } else {
+                tooltip.transition()
+                       .style("opacity", 1);
+                tooltip.html(`${TYPE}: ${county[0]} in ${d.properties.NAME}`)
+                       .style("left", (d3.pointer(event)[0] + 30) + "px")
+                       .style("top", (d3.pointer(event)[1] + 30) + "px")
+                d3.select(this).attr("stroke-width", 2)
+
+            }
+        })
+        .on("mousemove", function(event) { 
+            tooltip.style("left", (d3.pointer(event)[0] + 30) + "px")
+                   .style("top", (d3.pointer(event)[1] + 30) + "px")
+            d3.select(this).attr("stroke-width", 2)
+
+        })
+        .on("mouseleave", function() {
+            tooltip.transition()
+                   .style("opacity", 0)
+            d3.select(this).attr("stroke-width", 1)
+
+        })
+
 }
 
 load()
-
