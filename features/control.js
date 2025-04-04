@@ -10,32 +10,6 @@ const increase = document.getElementById("increase_year")
 var selected
 let animating = false
 
-function update(){
-    slider.value = slider.value
-    selected = slider.value
-    label.textContent = selected
-    filter(selected, legend_select.value)
-}
-
-function update1(){
-    slider.value = slider.value - 1
-    selected = slider.value
-    label.textContent = selected
-    filter(selected, legend_select.value)
-}
-
-function update3(){
-    slider.value = parseInt(slider.value) + 1
-    selected = slider.value
-    label.textContent = selected
-    filter(selected, legend_select.value)
-}
-
-function update2(year){
-    slider.value = year
-    label.textContent = year
-    filter(year, legend_select.value)
-}
 
 decrease.addEventListener("click", async function () {
     update1()
@@ -73,8 +47,6 @@ stopper.addEventListener("click", async function () {
 
 })
 
-
-
 legend_select.addEventListener("change", function () {
     update()
 })
@@ -84,7 +56,33 @@ function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-/* TODO
-- Step
-- Start from point
-*/
+
+function update(){
+    slider.value = slider.value
+    selected = slider.value
+    label.textContent = selected
+    filter(selected, legend_select.value)
+}
+
+
+function update1(){
+    slider.value = slider.value - 1
+    selected = slider.value
+    label.textContent = selected
+    filter(selected, legend_select.value)
+}
+ 
+
+function update3(){
+    slider.value = parseInt(slider.value) + 1
+    selected = slider.value
+    label.textContent = selected
+    filter(selected, legend_select.value)
+}
+
+
+function update2(year){
+    slider.value = year
+    label.textContent = year
+    filter(year, legend_select.value)
+}
