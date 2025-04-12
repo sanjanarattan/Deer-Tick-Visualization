@@ -1,7 +1,7 @@
-const width = 1600
-const height = 800
+var width = 1600
+var height = 800
 
-const SCALE = 6500
+var SCALE = 6500
 
 var TICKS
 var GEO
@@ -10,10 +10,10 @@ var gfg = d3.geoAlbers()
     .scale(SCALE)
     .translate([width / 2 - 1750, height / 2 + 600])
 
-const path = d3.geoPath()
+var path = d3.geoPath()
     .projection(gfg)
 
-const svg = d3.select("body")
+var svg = d3.select("#map")
     .append("svg")
     .attr("width", width)
     .attr("height", 1000)
@@ -34,6 +34,9 @@ function load(){
         GEO = geo_data
         TICKS = tick_data
         draw()
+        histogram(TICKS) 
+        line(TICKS)
+        splom(TICKS, 2020)
    })
 
 }
@@ -56,11 +59,12 @@ function filter(year, TYPE){
 
     var filtered
     filtered = TICKS.filter(d => d.Year == year)
-
+    DATA = filtered
     //console.log("Filtered Data:", filtered)
     //console.log(TYPE)
 
-    
+    histogram(filtered) 
+
     color(filtered, TYPE)
 
 }
