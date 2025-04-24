@@ -1,10 +1,11 @@
-var width = 1600
+var width = 800
 var height = 800
 
 var SCALE = 6500
 
 var TICKS
 var GEO
+var CLIM
 
 var gfg = d3.geoAlbers()
     .scale(SCALE)
@@ -25,23 +26,28 @@ function load(){
     Promise.all([
         d3.json("https://services6.arcgis.com/EbVsqZ18sv1kVJ3k/ArcGIS/rest/services/NYS_Civil_Boundaries/FeatureServer/2/query?f=geojson&where=1=1"),
         d3.csv("../data/deer_ticks.csv"),
+        d3.csv("../data/pre/comb.csv")
     ])
-        .then(function([geo_data, tick_data]){
+        .then(function([geo_data, tick_data, climate_data]){
         //console.log("Data", data)
         //console.log("Features count:", data.features.length)
         //console.log("Head:", data.features.slice(0, 5))
         //console.log("Climate Data:", climate_data)
         GEO = geo_data
         TICKS = tick_data
-        draw()
-        histogram(TICKS) 
-        line(TICKS)
-        splom(TICKS, 2020)
+        CLIM = climate_data
+        //console.log(CLIM)
+
+        drawMap()
+        lineChart()   
+        initDistribution()
+
+
    })
 
 }
 
-function draw(){
+function drawMap(){
 
     svg.selectAll("path")
         .data(GEO.features)
@@ -55,21 +61,20 @@ function draw(){
     filter(2023, "Tick Population Density")
 }
 
+
 function filter(year, TYPE){
 
     var filtered
     filtered = TICKS.filter(d => d.Year == year)
-    DATA = filtered
     //console.log("Filtered Data:", filtered)
     //console.log(TYPE)
 
-    histogram(filtered) 
-
-    color(filtered, TYPE)
-
+    colorMap(filtered, TYPE)
 }
+    
 
-function color(data, TYPE){
+
+function colorMap(data, TYPE){
 
     //console.log("Filtered data:", data)
     //console.log("Max Density for year:", d3.max(data, d => d["Tick Population Density"]))
@@ -80,9 +85,9 @@ function color(data, TYPE){
 
     const color_scale = d3.scaleSequential(d3.interpolateOranges)
                           .domain([0, d3.max(TICKS, d => d[TYPE])])
-    
 
-    var tooltip = d3.select("#map")
+
+    var tooltip = d3.select("body")
         .append("div")
         .style("opacity", 0)
         .attr("class", "tooltip")
@@ -106,6 +111,9 @@ function color(data, TYPE){
         })
         .on("mouseover", function(event, d){
 
+            const [x, y] = [event.pageX + 10, event.pageY + 10];
+
+
             if (animating){
                 return
             }
@@ -115,32 +123,48 @@ function color(data, TYPE){
                 tooltip.transition()
                        .style("opacity", 1)
                 tooltip.html(`County: ${d.properties.NAME} <br> ${TYPE}: ${county[TYPE]}`)
-                       .style("left", (d3.pointer(event)[0] + 30) + "px")
-                       .style("top", (d3.pointer(event)[1] + 1400) + "px")
+                        .style("left",  x + "px")
+                        .style("top",   y + "px")
                 d3.selectAll(this).attr("stroke-width", 2)
 
             } else {
                 tooltip.transition()
                        .style("opacity", 1);
                 tooltip.html(`County: ${d.properties.NAME} <br> ${TYPE}: ${0}`)
-                       .style("left", (d3.pointer(event)[0] + 30) + "px")
-                       .style("top", (d3.pointer(event)[1] + 1400) + "px")
+                       .style("left", (d3.pointer(event)[0] + 40) + "px")
+                       .style("top", (d3.pointer(event)[1]) + "px")
                 d3.select(this).attr("stroke-width", 2)
 
             }
         })
         .on("mousemove", function(event) { 
-            tooltip.style("left", (d3.pointer(event)[0] + 30) + "px")
-                    .style("top", (d3.pointer(event)[1] + 1400) + "px")
+            tooltip.style("left",  (event.pageX + 10) + "px")
+            .style("top",   (event.pageY + 10) + "px");
             d3.select(this).attr("stroke-width", 2)
 
         })
         .on("mouseleave", function() {
-            tooltip.transition()
-                   .style("opacity", 0)
+            tooltip.transition().style("opacity", 0)
+
             d3.select(this).attr("stroke-width", 1)
 
         })
+
+
+        svg.selectAll(".legend").remove();
+
+
+        var legend = d3.legendColor()
+            .scale(color_scale);
+
+        svg.append("g")
+            .attr("class", "legend")
+            .attr("transform", "translate(600,50)")
+            .call(legend);
+
+            var legend = d3.legendColor()
+            .scale(color_scale)
+            .useClass(true)
 
 }
 

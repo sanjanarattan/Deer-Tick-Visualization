@@ -1,69 +1,114 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif, sans-serif;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    display: flex;
+    justify-content: center;
 }
 
 section {
-    display: grid;
-    place-items: center;
-    align-content: center;
-    min-height:110vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    max-width: 1000px;
+    padding: 20px;
 }
 
-
-section2 {
-
-    min-height:50vh;
+section:first-of-type {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; 
+    padding: 0;        
+    margin: 0;         
 }
 
-section3 {
-    display: grid;
-    place-items: center;
-    align-content: center;
-    min-height:100vh;
+#center_wrapper > section:first-of-type {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
 }
 
+#center_wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
 
 #slider_container {
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 5px;
-    margin-top: 500px;
+    position: relative;
+    width: 100%;
+    max-width: 700px;
+    padding: 20px;
+    margin: 0 auto;
 }
 
-#name{
+#name {
     font-size: 20px;
-    margin-top:20px;
-
-
+    margin-top: 20px;
 }
-
 
 #Year {
     font-weight: bold;
+    font-size: 25px;
 }
 
-#title{
-    font-size: 30px;
-    margin-top: 10px;
-    margin-left:10px;
-    font-weight:bold;
+#title {
+    font-size: 36px;
+    margin-top: 30px;
+    font-weight: bold;
+    text-align: center;
 }
 
-.hidden{
+.hidden {
     opacity: 0;
     transition: opacity 1.5s ease-in-out;
 }
 
-.hide{
-    opacity:0;
+.hide {
+    opacity: 0;
 }
 
-.show{
+.show {
     opacity: 1;
 }
 
-#play {
+.controls-container {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 20px 0;
+}
+
+.year-controls {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.playback-controls {
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+}
+
+#play, #stop {
     font-family: 'Trebuchet MS';
     border-radius: 12px; 
     background-color: #ffffff;
@@ -71,103 +116,66 @@ section3 {
     font-size: 16px;
     font-weight: bold; 
     cursor: pointer;
-    border: solid 1px #fff;
-    margin-inline-start: 1400px;
+    border: none;
+    padding: 5px 10px;
 }
 
-
-#play:hover {
+#play:hover, #stop:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); 
 }
 
-#stop {
-    font-family: 'Trebuchet MS';
-    margin-left: -15px;
-    background-color: #ffffff;
-    color: #000000;
-    font-size: 16px;
-    font-weight: bold; 
-    cursor: pointer;
-    border: solid 1px #fff;
-    border-radius: 12px; 
-
-
-}
-
-#stop:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); 
+.control-separator {
+    margin: 0 1px;
+    font-weight: bold;
 }
 
 #year_slider {
     width: 40px;
     height: 6px;
     margin-top: 20px; 
-    margin-left: 20px;
+    display: none;
 }
 
-#Year{
-    margin-left: 5px;
-    font-size: 25px;
-}
-
-#decrease_year{
-    margin-left: 650px;
+#decrease_year, #increase_year {
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: none;
     background: transparent;
     border: solid 1px #fff;
     cursor: pointer;
-
-
+    font-size: 18px;
+    padding: 5px 10px;
 }
 
-#decrease_year:hover {
+#decrease_year:hover, #increase_year:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); 
-}
-
-#increase_year{
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: none;
-    background: transparent;
-    border: solid 1px #fff;
-    cursor: pointer;
-
-
-}
-
-#increase_year:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); 
-}
-
-#legend{
-    background-color: #ffffff;
-    border-color: #ffffff;
-    border-radius: 10px;
-    cursor: pointer;
-
-
-}
-
-#sub{
-    font-weight: bold;
-    font-size: 25px;
-    margin-left:20px;
-    margin-top: 20px;
 }
 
 #legend {
-    margin-top: 10px;
-    margin-left:70px;
+    background-color: #ffffff;
+    margin-top: 20px;
     text-align: center;
     font-family: 'Trebuchet MS';
     font-weight: bold;
+    width: 100%;
+    border: none;
 
+}
+
+
+#sub {
+    font-weight: bold;
+    font-size: 25px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+#map {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
 }
 
 #legend_select {
@@ -175,11 +183,104 @@ section3 {
     font-size: 13px;
     width: 100%; 
     max-width: 190px;
-    border-radius: 5px;
-    border: 1px solid #ffffff;
+    border: none;
     background-color: #ffffff;
     transition: border-color 0.3s ease;
     font-weight: bold;
-
 }
+
+.scrolly-container {
+    position: relative;
+    width: 100%;
+}
+
+.sticky-graphic {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 0;
+    background-color: #ffffff;
+}
+
+.graphic-container {
+    width: 80%;
+    height: 80%;
+    max-width: 1200px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.steps-container {
+    position: relative;
+    z-index: 1;
+}
+
+.step {
+    min-height: 100vh;
+    padding: 80vh 2rem 20vh;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    transition: opacity 0.5s;
+}
+
+.step.active {
+    opacity: 1;
+}
+
+.step-content {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 2rem;
+    border-radius: 8px;
+}
+
+.heading-highlight {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.heading-highlight::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -100%;
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #fff56666 50%, rgba(255, 255, 255, 0) 50%);
+    background-size: 200% 100%;
+    background-position: 100% 0;
+    z-index: 0;
+    animation: none;
+}
+
+@keyframes highlight {
+    to {
+        left: 0;
+        width: 100%;
+        background-position: 0 0;
+    }
+}
+
+.heading-highlight.show-animation::before {
+    animation: highlight 1s forwards;
+}
+
+.content {
+    gap: 50px; 
+}
+
+.content img {
+    max-width: 400px;
+    height: 400px;
+}
+
 

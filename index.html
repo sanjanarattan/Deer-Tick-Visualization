@@ -6,52 +6,187 @@
     <title>Deer Tick Visualization</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.min.js"></script>
     <script defer src="app.js"></script>
-
-
 </head>
 <body>
+    <div id="center_wrapper">
+        <section class="hidden">
+            <header id="title">Exploring Deer Ticks in New York</header>
+            <header id="name">Sanjana Prasad</header>
+        </section>
 
-    <section class = "hidden">
-        <header id = "title">Deer Ticks in New York</header>
-        <header id = "name">Sanjana Prasad</header>
-    </section>
+        <div class="scrolly-container">
+            <div class="sticky-graphic">
+                <div class="graphic-container" id="graphic">
+                    <img src="./images/tick.png" alt="Deer tick" class="tick-illustration" id="tick-image">
+                    <img src="./images/cycle.png" alt="Tick lifecycle" class="lifecycle" id="tick-lifecycle">
+                    <img src="./images/map.png" alt="New York tick map preview" class="distribution" id="ny-map-preview">
+                </div>
+            </div>
 
-    <section2 class = "hidden">
+            <div class="steps-container">
+                <div class="step" data-step="tick-intro">
+                    <div class="step-content">
+                            <h2 class="heading-highlight">What are Deer Ticks?</h2>
+                        <p>Deer ticks also known as black-legged ticks, are tiny arachnids that feed on blood.</p>
+                        <p>These ticks are vectors for several serious diseases.<sup>1</sup></p>
+                    </div>
+                </div>
 
-        <div id="slider_container">
+                <div class="step" data-step="lifecycle">
+                    <div class="step-content">
+                        <h2 class="heading-highlight">Tick Lifecycle and Seasonal Activity</h2>
+                        <p>Deer ticks have a two-year life cycle with four stages. They require a blood meal to progress between each stage.<sup>1</sup></p>
+                    </div>
+                </div>
 
-            <p id = "sub">1. mapping tick population and diseases</p>
-            <button id = "play">Play |</button>
-            <button id = "stop">Stop</button>  
-   
+                <div class="step" data-step="distribution">
+                    <div class="step-content">
+                        <h2 class="heading-highlight">Tick Distribution in Americ</h2>
+                        <p>Deer ticks are found throughout America, but their distribution is not uniform.<sup>1</sup></p>
+                        <span class="heading-highlight">Scientists predict that climate change is extending tick seasons<sup>2</sup></span>
+                    </div>
+                </div>
+
+                <div class="step" data-step="final">
+                    <div class="step-content">
+                        <h2 class="heading-highlight">Explore the Data</h2>
+                        <p>The visualizations ahead will allow you to examine tick density and disease across New York counties over time.</p>
+                        <p>You will also get the opportunity to explore correlations between tick related diseases and climate trends.</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <input class = "hide" type="range" id="year_slider" min="2008" max="2023" step="1" value="2023" />
-        <button id="decrease_year">&#9664;</button>
-        <label for="year_slider"><span id="Year">2023</span></label>
-        <button id="increase_year">&#9654;</button>
-        <div id="legend" value="Total Population Density"></div>
+  
+        <section class="hidden">
+            <div id="slider_container">
+                <p id="sub">1. mapping tick population and diseases</p>
+                
+                <div class="controls-container">
+                    <div class="year-controls">
+                        <button id="decrease_year">&#9664;</button>
+                        <label for="year_slider"><span id="Year">2023</span></label>
+                        <button id="increase_year">&#9654;</button>
+                    </div>
+                    
+                    <div class="playback-controls">
+                        <button id="play">Play</button>
+                        <span class="control-separator">|</span>
+                        <button id="stop">Stop</button>
+                    </div>
+                </div>
+                
+                <input class="hide" type="range" id="year_slider" min="2008" max="2023" step="1" value="2023" />
+                <div id="legend" value="Total Population Density"></div>
+            </div>
+  
+            <div id="map"></div>
+        </section>
 
-        <div id="map"></div>
+        
+        <div class="scrolly-container">
+            <div class="sticky-graphic">
+                <div class="graphic-container" id="graphic">
+                    <img src="./images/tick.png" alt="Deer tick" class="tick-illustration" id="tick-image">
+                </div>
+            </div>
+
+            <div class="steps-container">
+                <div class="step" data-step="2">
+                    <div class="step-content">
+                        <h2 class="heading-highlight"> The spread and density of ticks are increasing </h2>
+                        <p>Sadly, this is old news. In fact, the Cornell Chronicle even reports</p>
+                        <p class="heading-highlight">new species of ticks are also expaning in the state.<sup>3</sup></p>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="steps-container">
+                <div class="step" data-step="3">
+                    <div class="step-content">
+                        <h2> This begs the question, </h2>
+                        <h2 class="heading-highlight">  What is causing these ticks to expand so quick? </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="hidden">
+            <div id="slider_container">
+                <p id="sub">2. correlating climate data and tick distribution</p>
+                <div id="line-controls">
+                    County:
+                    <select id="county-select"></select>
+                  
+                    Tick Property:
+                    <select id="tick-select">
+                      <option value="Tick Population Density">Tick Population Density</option>
+                      <option value="B. burgdorferi (%)">B. burgdorferi (%)</option>
+                      <option value="A. phagocytophilum (%)">A. phagocytophilum (%)</option>
+                      <option value="B. microti (%)">B. microti (%)</option>
+                      <option value="B. miyamotoi (%)">B. miyamotoi (%)</option>
+                    </select>
+                  
+                  </div>
+                  <svg id="line" width="800" height="500"></svg>
+                  
+        </section>
+
+        <div class="scrolly-container">
+            <div class="sticky-graphic">
+                <div class="graphic-container" id="graphic">
+                    <img src="./images/tick.png" alt="Deer tick" class="tick-illustration" id="tick-image">
+                </div>
+            </div>
+
+            <div class="steps-container">
+                <div class="step" data-step="2">
+                    <div class="step-content">
+                        <p>Our data does not show the strongest correlation between climate and tick property distribution</p>
+                        <p>But is is known that they thrive in warmer, humid clmates, and terefore scientists 
+                            continue keeping watch on these two parameters.<sup>4</sup></p>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="steps-container">
+                <div class="step" data-step="5">
+                    <div class="step-content">
+                        <p>Another thing we can invesitage is</p>
+                        <h2 class="heading-highlight">Relationships between tick properties? </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="hidden">
+            <div id="slider_container">
+                <p id="sub">3. correlating tick properties (diseases and distribution)</p>
+                <div class="content">
+                    <figure>
+                        <svg id="som" width="400" height="400"></svg>
+                    </figure>
+                    
+                    <figure>
+                        <svg id="histogram" width="400" height="400"></svg>
+                    </figure>
+                    
+                </div>
+                  
+        </section>
+
+    </div>
 
 
-
-        <p id = "sub">rough draft of additional visualizations</p>
-        <div id="histogram"> HISTOGRAM</div>
-        <div id="line"> LINE</div>
-        <div id="splom">SPLOM</div>
-
-
-
-    </section2>
+    
     <script src="features/map.js"></script>
     <script src="features/legend.js"></script>
     <script src="features/control.js"></script>
-    <script src="features/histogram.js"></script>
     <script src="features/line.js"></script>
-    <script src="features/splom.js"></script>
-
-
+    <script src="features/distribution.js"></script>
 
 
 </body>
