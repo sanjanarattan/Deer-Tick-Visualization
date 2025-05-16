@@ -1,14 +1,10 @@
 # User Manual 
 
-## Overview
-
-This project visualizes tick population and disease data alongside climate data using interactive line charts powered by D3.js.
-
----
-
 ## Installation and Setup
 
-### 1. **Install Dependencies**
+### 1. **Clone the repo**
+
+### 2. **Install Dependencies**
 
 To run the visualization, you need the following dependencies:
 
