@@ -1,3 +1,7 @@
+/**
+ * Renders legend for displays
+ */
+
 const groups = ["Tick Population Density", "B. burgdorferi (%)", "A. phagocytophilum (%)", "B. microti (%)", "B. miyamotoi (%)"]
 
 

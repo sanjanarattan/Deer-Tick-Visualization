@@ -274,13 +274,6 @@ section:first-of-type {
     animation: highlight 1s forwards;
 }
 
-.content {
-    gap: 50px; 
-}
 
-.content img {
-    max-width: 400px;
-    height: 400px;
-}
 
 

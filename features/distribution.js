@@ -1,25 +1,28 @@
+/**
+ * Initializes the distribution visualizations
+ */
 function distribution() {
-
     const properties = [
         "Tick Population Density",
         "B. burgdorferi (%)",
         "A. phagocytophilum (%)",
         "B. microti (%)",
         "B. miyamotoi (%)"
-    ]
+    ];
 
-    d3.select("#som")
-    .selectAll("*")
-    .remove()
-    d3.select("#histogram")
-    .selectAll("*"
+    // Clear previous visualizations
+    d3.select("#som").selectAll("*").remove();
+    d3.select("#histogram").selectAll("*").remove();
 
-    ).remove()
-
-    SOM(properties)
-    HIST(properties[0])
+    SOM(properties);           // Draw correlation matrix for all properties
+    HIST(properties[0]);       // Draw histogram for first property
 }
 
+/**
+ * Draws a Self-Organizing Map (SOM) style correlation matrix of scatter plots.
+ * Diagonal cells show property names, off-diagonal cells show scatter plots.
+ * @param {string[]} properties - List of property names to visualize
+ */
 function SOM(properties) {
     const svgWidth = 400;
     const padding = 40;
@@ -27,6 +30,7 @@ function SOM(properties) {
     
     const svg = d3.select("#som");
     
+    // Create scales for each property based on max data value
     const scales = {};
     properties.forEach(prop => {
         scales[prop] = d3.scaleLinear()
@@ -39,6 +43,7 @@ function SOM(properties) {
             const cell = svg.append("g")
                 .attr("transform", `translate(${padding + j * size}, ${padding + i * size})`);
             
+            // Cell background rectangle
             cell.append("rect")
                 .attr("width", size)
                 .attr("height", size)
@@ -50,6 +55,7 @@ function SOM(properties) {
             const propY = properties[i];
             
             if (i === j) {
+                // Diagonal cell: show property name without "(%)"
                 cell.append("text")
                     .attr("x", size / 2)
                     .attr("y", size / 2)
@@ -59,6 +65,7 @@ function SOM(properties) {
                     .style("font-weight", "bold")
                     .text(propX.replace(/ \(%\)$/, ''));
             } else {
+                // Off-diagonal cell: scatter plot of propX vs propY
                 const dots = cell.selectAll(".dot")
                     .data(TICKS.filter(d => d[propX] && d[propY]))
                     .enter().append("circle")
@@ -69,11 +76,9 @@ function SOM(properties) {
                     .attr("fill", "#ff7f0e")
                     .attr("opacity", 0.6)
                     .attr("cursor", "pointer")
+                    // Tooltip on hover
                     .on("mouseover", function(event, d) {
-                        d3.select(this)
-                            .attr("r", 4)
-                            .attr("fill", "#e31a1c");
-                        
+                        d3.select(this).attr("r", 4).attr("fill", "#e31a1c");
                         const tooltip = d3.select("body").append("div")
                             .attr("class", "tooltip")
                             .style("opacity", 0)
@@ -83,19 +88,16 @@ function SOM(properties) {
                             .style("padding", "8px")
                             .style("border-radius", "4px")
                             .style("font-size", "12px");
-                        
                         tooltip.transition().duration(200).style("opacity", 1);
                         tooltip.html(`County: ${d.County}<br>${propX}: ${d[propX]}<br>${propY}: ${d[propY]}`)
                             .style("left", (event.pageX + 10) + "px")
                             .style("top", (event.pageY - 15) + "px");
                     })
                     .on("mouseout", function() {
-                        d3.select(this)
-                            .attr("r", 2)
-                            .attr("fill", "#ff7f0e");
-                        
+                        d3.select(this).attr("r", 2).attr("fill", "#ff7f0e");
                         d3.selectAll(".tooltip").remove();
                     })
+                    // On click, show histogram and highlight county
                     .on("click", (event, d) => {
                         createHistogram(propX, d.County);
                         highlightCounty(d.County);
@@ -104,6 +106,7 @@ function SOM(properties) {
         }
     }
     
+    // Title for the correlation matrix
     svg.append("text")
         .attr("x", svgWidth / 2)
         .attr("y", 15)
@@ -113,6 +116,12 @@ function SOM(properties) {
         .text("Correlation Matrix");
 }
 
+/**
+ * Draws a histogram for the specified property.
+ * Optionally highlights a specific county's value on the histogram.
+ * @param {string} property - Property name for histogram
+ * @param {string|null} [highlightCounty=null] - County name to highlight on the histogram
+ */
 function HIST(property, highlightCounty = null) {
     const svg = d3.select("#histogram");
     svg.selectAll("*").remove();
@@ -122,8 +131,9 @@ function HIST(property, highlightCounty = null) {
     const height = 400 - margin.top - margin.bottom;
     
     const chart = svg.append("g")
-        .attr("transform", `translate(${margin.left}, ${margin.top})`)
-        const data = TICKS.filter(d => d[property] != null && d[property] != undefined)
+        .attr("transform", `translate(${margin.left}, ${margin.top})`);
+    
+    const data = TICKS.filter(d => d[property] != null && d[property] != undefined);
     
     const x = d3.scaleLinear()
         .domain([0, d3.max(data, d => +d[property])])
@@ -140,6 +150,7 @@ function HIST(property, highlightCounty = null) {
         .domain([0, d3.max(bins, d => d.length)])
         .range([height, 0]);
     
+    // Draw bars
     chart.selectAll(".bar")
         .data(bins)
         .enter()
@@ -150,8 +161,9 @@ function HIST(property, highlightCounty = null) {
         .attr("width", d => Math.max(0, x(d.x1) - x(d.x0) - 1))
         .attr("height", d => height - y(d.length))
         .attr("fill", "#ff7f0e")
-        .attr("opacity", 0.7)
+        .attr("opacity", 0.7);
     
+    // X-axis
     chart.append("g")
         .attr("transform", `translate(0, ${height})`)
         .call(d3.axisBottom(x))
@@ -159,23 +171,29 @@ function HIST(property, highlightCounty = null) {
         .style("text-anchor", "end")
         .attr("dx", "-.8em")
         .attr("dy", ".15em")
-        .attr("transform", "rotate(-45)")
+        .attr("transform", "rotate(-45)");
     
+    // Y-axis
     chart.append("g")
         .call(d3.axisLeft(y));
-        svg.append("text")
+    
+    // Histogram title
+    svg.append("text")
         .attr("x", 200)
         .attr("y", 15)
         .attr("text-anchor", "middle")
         .style("font-size", "14px")
         .style("font-weight", "bold")
         .text(`Distribution of ${property}`);
-        chart.append("text")
+    
+    // X-axis label
+    chart.append("text")
         .attr("x", width / 2)
         .attr("y", height + margin.bottom - 5)
         .attr("text-anchor", "middle")
         .text(property);
     
+    // Y-axis label
     chart.append("text")
         .attr("transform", "rotate(-90)")
         .attr("x", -height / 2)
@@ -183,6 +201,7 @@ function HIST(property, highlightCounty = null) {
         .attr("text-anchor", "middle")
         .text("Frequency");
     
+    // Highlight county on histogram, if provided
     if (highlightCounty) {
         const countyData = data.find(d => d.County === highlightCounty);
         if (countyData) {
@@ -206,21 +225,30 @@ function HIST(property, highlightCounty = null) {
     }
 }
 
+/**
+ * Highlights a county on the map by changing stroke width and color.
+ * @param {string} county - Name of the county to highlight
+ */
 function highlightCounty(county) {
     d3.selectAll("#map path")
         .attr("stroke-width", d => {
-            if (d.properties && d.properties.NAME == county) {
-                return 3
+            if (d.properties && d.properties.NAME === county) {
+                return 3;
             }
-            return 1
+            return 1;
         })
         .attr("stroke", d => {
-            if (d.properties && d.properties.NAME == county) {
-                return "#e31a1c"
+            if (d.properties && d.properties.NAME === county) {
+                return "#e31a1c";
             }
             return "#000";
         });
 }
+
+/**
+ * Adds a dropdown selector for properties to visualize histograms.
+ * On change, updates the histogram.
+ */
 function selector() {
     const properties = [
         "Tick Population Density",
@@ -228,7 +256,7 @@ function selector() {
         "A. phagocytophilum (%)",
         "B. microti (%)",
         "B. miyamotoi (%)"
-    ]
+    ];
     
     const selector = d3.select(".content")
         .insert("div", ":first-child")
@@ -241,12 +269,15 @@ function selector() {
         `);
     
     d3.select("#property-select").on("change", function() {
-        createHistogram(this.value);
-    })
+        HIST(this.value);
+    });
 }
 
+/**
+ * Initializes the distribution visualization by setting up the selector
+ * and rendering the initial distribution views.
+ */
 function initDistribution() {
     selector();
     distribution();
 }
-

@@ -1,3 +1,19 @@
+/**
+ * Initialize and update line charts
+ */
+
+// Map select objects with html tags
+
+const tickTypeMap = {
+  "Tick Population Density": "TickPopulationDensity",
+  "B. burgdorferi (%)": "B_burgdorferi",
+  "A. phagocytophilum (%)": "A_phagocytophilum",
+  "B. microti (%)": "B_microti",
+  "B. miyamotoi (%)": "B_miyamotoi"
+};
+
+
+
 function lineChart() {
     const counties = Array.from(new Set(TICKS.map(d => d.County))).sort()
     const countySelect = d3.select("#county-select")
@@ -17,15 +33,15 @@ function lineChart() {
   function updateLine() {
     const county   = d3.select("#county-select")
     .property("value")
-    const tickType = d3.select("#tick-select")
-    .property("value") 
+    const tickLabel = d3.select("#tick-select").property("value")
+const tickType = tickTypeMap[tickLabel];
     const climField = "AvgTemperature"
   
     const filteredRows = TICKS.filter(row => row.County == county);
     const mappedSeries = filteredRows.map(row => {
       return {
         year:  Number(row.Year),
-        value: Number(row[tickType])
+value: Number(row[tickLabel])
       };
     });
 
@@ -113,7 +129,7 @@ function lineChart() {
        .attr("x", width / 2)
        .attr("y", m.top - 40)
        .attr("text-anchor", "middle")
-       .text("${county}: ${tickType} (blue) vs ${climField} (orange)")
+      .text(`${county}: ${tickType} (blue) vs ${climField} (orange)`)
 
     svg.append("text")
         .attr("x", width / 2)

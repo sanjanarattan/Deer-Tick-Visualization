@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const visibleHeight = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
             const visibility = visibleHeight / step.offsetHeight;
             
-            if (visibility > maxVisibility && visibility > 0.3) { 
+            if (visibility > maxVisibility && visibility > 0.1) { 
                 maxVisibility = visibility;
                 mostVisibleStep = step
             }
@@ -127,5 +127,5 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', handleScroll)
     setTimeout(() => {
         handleScroll()
-    }, 300)
+    }, 150)
 })

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Deer Tick Visualization</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.min.js"></script>
     <script defer src="app.js"></script>
@@ -12,25 +12,33 @@
 <body>
     <div id="center_wrapper">
         <section class="hidden">
-            <header id="title">Exploring Deer Ticks in New York</header>
+            <header id="title">Crowdsourced Ecology: A Visualization Platform for Deer Tick-Borne Disease Surveillance</header>
             <header id="name">Sanjana Prasad</header>
         </section>
 
         <div class="scrolly-container">
             <div class="sticky-graphic">
                 <div class="graphic-container" id="graphic">
-                    <img src="./images/tick.png" alt="Deer tick" class="tick-illustration" id="tick-image">
-                    <img src="./images/cycle.png" alt="Tick lifecycle" class="lifecycle" id="tick-lifecycle">
-                    <img src="./images/map.png" alt="New York tick map preview" class="distribution" id="ny-map-preview">
+                    <img src="./images/tick.png" alt="Deer tick" class="tick-illustration" id="tick-image" />
+                    <img src="./images/cycle.png" alt="Tick lifecycle" class="lifecycle" id="tick-lifecycle" />
+                    <img src="./images/map.png" alt="New York tick map preview" class="distribution" id="ny-map-preview" />
                 </div>
             </div>
 
             <div class="steps-container">
                 <div class="step" data-step="tick-intro">
                     <div class="step-content">
-                            <h2 class="heading-highlight">What are Deer Ticks?</h2>
-                        <p>Deer ticks also known as black-legged ticks, are tiny arachnids that feed on blood.</p>
-                        <p>These ticks are vectors for several serious diseases.<sup>1</sup></p>
+                        <h2 class="heading-highlight">What are Deer Ticks?</h2>
+                        <p>Deer ticks are also known as black-legged ticks; they tiny arachnids that feed on blood.</p>
+                        <p>These ticks are vectors for several serious diseases. Symptoms range from flu like to nuerological disorders.<sup>1</sup></p>
+                        <p>Lyme disease is caused by the bacterium Borrelia burgdorferi, through the bite of infected ticks. It often leads to flu
+                            like symptoms, rashes, and, if untreated, neurological and
+                            joint complications. Babesiosis, caused by Babesia microti,
+                            is a malaria-like parasitic infection that infects red blood
+                            cells. Anaplasmosis is caused by the bacterium Anaplasma
+                            phagocytophilum. Borrelia miyamotoi disease, caused by the
+                            spirochete Borrelia miyamotoi, is a more recently recognized
+                            illness that shares some symptoms with Lyme disease.</p>
                     </div>
                 </div>
 
@@ -43,8 +51,10 @@
 
                 <div class="step" data-step="distribution">
                     <div class="step-content">
-                        <h2 class="heading-highlight">Tick Distribution in Americ</h2>
+                        <h2 class="heading-highlight">Tick Distribution in America</h2>
                         <p>Deer ticks are found throughout America, but their distribution is not uniform.<sup>1</sup></p>
+                        <p>This visualization focuses on deer ticks in New York.</p>
+                        <p>Recently , the state has reported widespread tick sightings through crowdsourced data.</p>
                         <span class="heading-highlight">Scientists predict that climate change is extending tick seasons<sup>2</sup></span>
                     </div>
                 </div>
@@ -54,41 +64,41 @@
                         <h2 class="heading-highlight">Explore the Data</h2>
                         <p>The visualizations ahead will allow you to examine tick density and disease across New York counties over time.</p>
                         <p>You will also get the opportunity to explore correlations between tick related diseases and climate trends.</p>
+                        <p>All data is crowdsourced data from the New York Gov Website.</p>
                     </div>
                 </div>
             </div>
         </div>
-  
+
         <section class="hidden">
             <div id="slider_container">
                 <p id="sub">1. mapping tick population and diseases</p>
-                
+
                 <div class="controls-container">
                     <div class="year-controls">
                         <button id="decrease_year">&#9664;</button>
                         <label for="year_slider"><span id="Year">2023</span></label>
                         <button id="increase_year">&#9654;</button>
                     </div>
-                    
+
                     <div class="playback-controls">
                         <button id="play">Play</button>
                         <span class="control-separator">|</span>
                         <button id="stop">Stop</button>
                     </div>
                 </div>
-                
+
                 <input class="hide" type="range" id="year_slider" min="2008" max="2023" step="1" value="2023" />
                 <div id="legend" value="Total Population Density"></div>
             </div>
-  
+
             <div id="map"></div>
         </section>
 
-        
         <div class="scrolly-container">
             <div class="sticky-graphic">
                 <div class="graphic-container" id="graphic">
-                    <img src="./images/tick.png" alt="Deer tick" class="tick-illustration" id="tick-image">
+                    <img src="./images/tick.png" alt="Deer tick" class="tick-illustration" id="tick-image" />
                 </div>
             </div>
 
@@ -96,9 +106,7 @@
                 <div class="step" data-step="2">
                     <div class="step-content">
                         <h2 class="heading-highlight"> The spread and density of ticks are increasing </h2>
-                        <p>Sadly, this is old news. In fact, the Cornell Chronicle even reports</p>
-                        <p class="heading-highlight">new species of ticks are also expaning in the state.<sup>3</sup></p>
-
+                        <p>Sadly, this is old news. In fact, the Cornell Chronicle even reports new species of ticks are also expanding in the state.<sup>3</sup></p>
                     </div>
                 </div>
             </div>
@@ -119,7 +127,7 @@
                 <div id="line-controls">
                     County:
                     <select id="county-select"></select>
-                  
+
                     Tick Property:
                     <select id="tick-select">
                       <option value="Tick Population Density">Tick Population Density</option>
@@ -128,16 +136,16 @@
                       <option value="B. microti (%)">B. microti (%)</option>
                       <option value="B. miyamotoi (%)">B. miyamotoi (%)</option>
                     </select>
-                  
+
                   </div>
                   <svg id="line" width="800" height="500"></svg>
-                  
+
         </section>
 
         <div class="scrolly-container">
             <div class="sticky-graphic">
                 <div class="graphic-container" id="graphic">
-                    <img src="./images/tick.png" alt="Deer tick" class="tick-illustration" id="tick-image">
+                    <img src="./images/tick.png" alt="Deer tick" class="tick-illustration" id="tick-image" />
                 </div>
             </div>
 
@@ -145,8 +153,10 @@
                 <div class="step" data-step="2">
                     <div class="step-content">
                         <p>Our data does not show the strongest correlation between climate and tick property distribution</p>
-                        <p>But is is known that they thrive in warmer, humid clmates, and terefore scientists 
+                        <p>But is is known that they thrive in warmer, humid clmates, and therefore scientists 
                             continue keeping watch on these two parameters.<sup>4</sup></p>
+
+                        <p>One thing we may consider is plotting the data against other climate factors such as humidity, vegetation and greenhouse gas</p>
 
                     </div>
                 </div>
@@ -155,7 +165,7 @@
             <div class="steps-container">
                 <div class="step" data-step="5">
                     <div class="step-content">
-                        <p>Another thing we can invesitage is</p>
+                        <p>Another thing we can invesigate is</p>
                         <h2 class="heading-highlight">Relationships between tick properties? </h2>
                     </div>
                 </div>
@@ -163,31 +173,63 @@
         </div>
 
         <section class="hidden">
-            <div id="slider_container">
-                <p id="sub">3. correlating tick properties (diseases and distribution)</p>
-                <div class="content">
-                    <figure>
-                        <svg id="som" width="400" height="400"></svg>
-                    </figure>
-                    
-                    <figure>
-                        <svg id="histogram" width="400" height="400"></svg>
-                    </figure>
-                    
-                </div>
-                  
+          <div id="slider_container">
+            <p id="sub">3. correlating tick properties (diseases and distribution)</p>
+            <div class="content">
+              <figure>
+                <svg id="som" width="400" height="400"></svg>
+              </figure>
+              <figure>
+                <svg id="histogram" width="400" height="400"></svg>
+              </figure>
+            </div>
+          </div>
         </section>
+
+        <div class="scrolly-container">
+        
+          <div class="steps-container">
+            <div class="step" data-step="cta">
+              <div class="step-content">
+                <h2 class="heading-highlight">Help Us Track Deer Ticks</h2>
+                <p>Your participation can help scientists monitor tick populations and disease spread.</p>
+                <p>If you find a tick, consider sending a sample to these labs:</p>
+                <ul style="text-align: left; max-width: 600px; margin: 0 auto;">
+                  <li><a href="https://www.tickcheck.com/landing/lyme-disease?msclkid=3bf530f9aaee18aa82d458df19ab6324&utm_source=bing&utm_medium=cpc&utm_campaign=Tick%20Testing%20-%20General&utm_term=tick%20testing%20lab&utm_content=General%2FLyme%20-%20Lab" target="_blank" rel="noopener">NY Tick Laboratory</a></li>
+                  <li><a href="https://www.warrencountyny.gov/news/warren-county-health-services-creates-new-tick-reporting-website" target="_blank" rel="noopener">Warren County</a></li>
+                  <li><a href="https://www.tickencounter.org/contact" target="_blank" rel="noopener">TickEncounter Submission</a></li>
+                </ul>
+                <p>Thank you for contributing to public health research!</p>
+              </div>
+            </div>
+
+            <div class="step" data-step="references">
+              <div class="step-content" style="text-align:left; max-width: 700px; margin: 0 auto;">
+                <h2 class="heading-highlight">References</h2>
+                <ol>
+                  <li>New York State Open Data, “Deer tick surveillance data,” Available: <a href="https://data.ny.gov" target="_blank" rel="noopener">https://data.ny.gov</a></li>
+                  <li>New York Flora Atlas, “Flora distribution data for New York State,” Available: <a href="https://newyork.plantatlas.usf.edu" target="_blank" rel="noopener">https://newyork.plantatlas.usf.edu</a></li>
+                  <li>Mayo Clinic, “Tick species that carry diseases,” Available: <a href="https://www.mayoclinic.org/diseases-conditions/alpha-gal-syndrome/in-depth/tick-species/art-20546861" target="_blank" rel="noopener">mayoclinic.org</a></li>
+                  <li>Cornell University, “New invasive ticks expanding in New York State,” Available: <a href="https://news.cornell.edu/media-relations/tip-sheets/new-invasive-ticks-expanding-new-york-state-things-watch" target="_blank" rel="noopener">news.cornell.edu</a></li>
+                  <li>Medical News Today, “What to know about deer ticks,” Available: <a href="https://www.medicalnewstoday.com/articles/deer-tick" target="_blank" rel="noopener">medicalnewstoday.com</a></li>
+                  <li>A. Ducharme, “How climate change is expanding tick territories,” TIME Magazine, Mar. 2023, Available: <a href="https://time.com/6262408/climate-change-lyme-disease-ticks/" target="_blank" rel="noopener">time.com</a></li>
+                  <li>E. Roston, “What’s really warming the world,” Bloomberg Graphics, 2015, Available: <a href="https://www.bloomberg.com/graphics/2015-whats-warming-the-world/" target="_blank" rel="noopener">bloomberg.com</a></li>
+                  <li>R. Goldenberg, “Scrollama.js,” GitHub, Available: <a href="https://github.com/russellgoldenberg/scrollama" target="_blank" rel="noopener">github.com</a></li>
+                  <li>D3.js, “D3 documentation and examples,” Available: <a href="https://d3js.org" target="_blank" rel="noopener">d3js.org</a></li>
+                  <li>Stack Overflow contributors, Stack Overflow, Available: <a href="https://stackoverflow.com" target="_blank" rel="noopener">stackoverflow.com</a></li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End new scrolly-telling container -->
 
     </div>
 
-
-    
     <script src="features/map.js"></script>
     <script src="features/legend.js"></script>
     <script src="features/control.js"></script>
     <script src="features/line.js"></script>
     <script src="features/distribution.js"></script>
-
-
 </body>
 </html>
